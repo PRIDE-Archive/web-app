@@ -1,0 +1,40 @@
+/** Add css rules here for your application. */
+
+canvas {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+}
+
+/** Styles for the tables */
+table{
+    padding: 0;
+    border: 0;
+    margin: 0;
+    border-collapse: separate !important;
+    font-weight: bold;
+}
+th, td{
+    border: 0;
+    margin: 0;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.gwt-Anchor:hover {
+    cursor: pointer;
+}
+
+.gwt-PopupGlass {
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.gwt-Popup {
+    font-size: larger;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 1.0);
+    z-index: 101;
+}
