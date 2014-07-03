@@ -225,29 +225,31 @@ final class State {
                     String tissues) {
         boolean isValid = true;
 
-        if(proteins.isEmpty() &&
-           (!peptides.isEmpty() || !variances.isEmpty() || !regions.isEmpty())) {
+        // if there are peptides,variances or regions there has to be a corresponding protein
+        if(proteins.isEmpty() && (!peptides.isEmpty() || !variances.isEmpty() || !regions.isEmpty())) {
             isValid = false;
         }
-        else if((groups.isEmpty() && proteins.isEmpty()) &&
-                (!modifications.isEmpty() || !tissues.isEmpty())) {
+        // if there are modifications or tissues there has to be a protein or group
+        else if((groups.isEmpty() && proteins.isEmpty()) && (!modifications.isEmpty() || !tissues.isEmpty())) {
             isValid = false;
         }
+        // if there are variances there has to be at least a peptide
         else if(peptides.isEmpty() && !variances.isEmpty()) {
             isValid = false;
         }
+        // additional more complex checks
         else {
-            // we do more complex checks here.
+            // check that the regions can be tokenized
             for(String regionId : regions.split(sepValues)) {
                 if(!regionId.isEmpty()) {
                     try {
                         Region.tokenize(regionId);
-                    }
-                    catch(Exception e) {
+                    } catch(Exception e) {
                         isValid = false;
                     }
                 }
             }
+            // check that the variances match the peptides (done comparing the sequence string contained in their ids)
             for(String varianceId : variances.split(sepValues)) {
                 if(!varianceId.isEmpty()) {
 //                    String varSeq = varianceId.split("[|]")[0].substring(1); // why the substring?? why get rid of the first character??
@@ -255,13 +257,20 @@ final class State {
                     String[] pepIds = peptides.split(sepValues);
                     boolean isContained = false;
                     for(String pepId : pepIds) {
+                        String peptideString = pepId;
                         if(pepId.contains(sepFields)) {
-                            if(varSeq.equals(pepId.split(sepFields)[0])) {
-                                isContained = true;
-                                break;
-                            }
+                            peptideString = pepId.split(sepFields)[0];
+////                            if(varSeq.equals(pepId.split(sepFields)[0])) {
+//                            if(varSeq.contains(pepId.split(sepFields)[0] + "__")) {
+//                                isContained = true;
+//                                break;
+//                            }
+//                        } else if(varSeq.equals(pepId)) {
+//                            isContained = true;
+//                            break;
                         }
-                        else if(varSeq.equals(pepId)) {
+
+                        if ( varSeq.contains(peptideString + "__") ) {
                             isContained = true;
                             break;
                         }
