@@ -15,6 +15,8 @@ import java.util.Collection;
  *         Time: 16:14
  */
 class DataRequester implements RequestCallback {
+
+    private final static int UNPROCESSABLE_ENTITY = 422;
     private final String id;
     private final Class responseType;
     private Collection<TransactionHandler> handlers = new ArrayList<>();
@@ -41,20 +43,29 @@ class DataRequester implements RequestCallback {
                 Console.info("Error: server response is null!");
             }
             onInvalidResponse(new UnacceptableResponse(0, "", "No response from the server.", responseType, id));
-        } else if(response.getStatusCode() == 200) { // status: "OK"
+        } else if(response.getStatusCode() == Response.SC_OK) {
             if (Console.VERBOSE) {
                 Console.info("Valid response from server.");
             }
             onValidResponse(response);
-        } else if (response.getStatusCode() == 401 || response.getStatusCode() == 403) {
+        } else if (response.getStatusCode() == Response.SC_UNAUTHORIZED || response.getStatusCode() == Response.SC_FORBIDDEN) {
             if (Console.VERBOSE) {
-                Console.info("ERROR: " + response.getStatusCode() + " Unauthorised access!");
+                Console.info("ERROR: " + response.getStatusCode() + " Illegal access!");
             }
             onInvalidResponse(new UnacceptableResponse(response.getStatusCode(),
                                                        response.getStatusText(),
-                                                       "Unauthorised access!",
+                                                       "Illegal access!",
                                                        responseType,
                                                        id));
+        } else if (response.getStatusCode() == UNPROCESSABLE_ENTITY || response.getStatusCode() == Response.SC_NOT_FOUND) {
+            if (Console.VERBOSE) {
+                Console.info("ERROR: " + response.getStatusCode() + " No valid data found!");
+            }
+            onInvalidResponse(new UnacceptableResponse(response.getStatusCode(),
+                    response.getStatusText(),
+                    "No valid data found!",
+                    responseType,
+                    id));
         } else {
             if (Console.VERBOSE) {
                 Console.info("Error: Invalid response from server. status:" + response.getStatusCode() + "/" +response.getStatusText() );

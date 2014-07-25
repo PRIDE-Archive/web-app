@@ -3,7 +3,7 @@
         "title": "EMBL-EBI PRIDE Archive",
         "javascriptList": [
             {
-                "url": "WebApp/WebApp.nocache.js"
+                "url": "viewer/viewer.nocache.js"
             }
         ],
         "breadcrumbItems": [{
