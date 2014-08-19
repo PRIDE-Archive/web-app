@@ -24,22 +24,28 @@ public class MainView implements MainPresenter.ThisView {
         layout = new VerticalPanel();
         layout.setWidth("100%");
 
-        HorizontalPanel subHeader = new HorizontalPanel();
-        subHeader.setWidth("100%");
+        // we remove the tissue table, therefore the modification table can use the full width, so we
+        // remove the sub header, which is used to put the modification and tissue table on the same level
+//        HorizontalPanel subHeader = new HorizontalPanel();
+//        subHeader.setWidth("100%");
+//        for(int i = 0; i < panelList.size(); i++) {
+//            if(i == 1) {
+//                layout.add(subHeader);
+//                subHeader.add((Widget) panelList.get(i));
+//                subHeader.setCellWidth((Widget) panelList.get(i), "50%");
+//            }
+//            else if(i == 2) {
+//                subHeader.add((Widget) panelList.get(i));
+//            }
+//            else {
+//                layout.add((Widget) panelList.get(i));
+//            }
+//        }
 
-        for(int i = 0; i < panelList.size(); i++) {
-            if(i == 1) {
-                layout.add(subHeader);
-                subHeader.add((Widget) panelList.get(i));
-                subHeader.setCellWidth((Widget) panelList.get(i), "50%");
-            }
-            else if(i == 2) {
-                subHeader.add((Widget) panelList.get(i));
-            }
-            else {
-                layout.add((Widget) panelList.get(i));
-            }
+        for (AcceptsOneWidget acceptsOneWidget : panelList) {
+            layout.add( (Widget) acceptsOneWidget );
         }
+
         popup = new PopupMask();
         //We want to move the popup position when the window is resized
         Window.addResizeHandler(new ResizeHandler() {

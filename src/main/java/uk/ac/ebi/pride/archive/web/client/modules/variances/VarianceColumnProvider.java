@@ -40,32 +40,32 @@ class VarianceColumnProvider {
         });
 
         // Column that shows the tissues the peptide has been seen in.
-        TextColumn<Peptide> tissuesColumn = new TextColumn<Peptide>() {
-            @Override
-            public String getValue(Peptide object) {
-                StringBuilder sb = new StringBuilder();
-                for(String tissue : object.getTissues()) {
-                    sb.append(tissue).append(", ");
-                }
-                return sb.length() == 0 ? "N/A" : sb.substring(0, sb.length() - 2);
-            }
-        };
-
-        tissuesColumn.setSortable(true);
-        sorter.setComparator(tissuesColumn, new Comparator<Peptide>() {
-            @Override
-            public int compare(Peptide o1, Peptide o2) {
-                StringBuilder sb1 = new StringBuilder();
-                StringBuilder sb2 = new StringBuilder();
-                for(String tissue : o1.getTissues()) {
-                    sb1.append(tissue);
-                }
-                for(String tissue : o2.getTissues()) {
-                    sb2.append(tissue);
-                }
-                return sb1.toString().compareTo(sb2.toString());
-            }
-        });
+//        TextColumn<Peptide> tissuesColumn = new TextColumn<Peptide>() {
+//            @Override
+//            public String getValue(Peptide object) {
+//                StringBuilder sb = new StringBuilder();
+//                for(String tissue : object.getTissues()) {
+//                    sb.append(tissue).append(", ");
+//                }
+//                return sb.length() == 0 ? "N/A" : sb.substring(0, sb.length() - 2);
+//            }
+//        };
+//
+//        tissuesColumn.setSortable(true);
+//        sorter.setComparator(tissuesColumn, new Comparator<Peptide>() {
+//            @Override
+//            public int compare(Peptide o1, Peptide o2) {
+//                StringBuilder sb1 = new StringBuilder();
+//                StringBuilder sb2 = new StringBuilder();
+//                for(String tissue : o1.getTissues()) {
+//                    sb1.append(tissue);
+//                }
+//                for(String tissue : o2.getTissues()) {
+//                    sb2.append(tissue);
+//                }
+//                return sb1.toString().compareTo(sb2.toString());
+//            }
+//        });
 
         // Column that shows the modifications the peptide has.
         TextColumn<Peptide> modsColumn = new TextColumn<Peptide>() {
@@ -109,54 +109,56 @@ class VarianceColumnProvider {
         });
 
         // Column that shows the assays the peptide has been seen in.
-        Column<Peptide, SafeHtml> multiAssayLinkColumn = new Column<Peptide, SafeHtml>(new SafeHtmlCell()) {
-           @Override
-           public SafeHtml getValue(Peptide obj)
-           {
-               // create a direct link(s) to PRIDE Archive for the assay(s)
-               FlowPanel panel = new FlowPanel();
-               for (String assayId : obj.getAssays()) {
-                   panel.add(new Anchor(assayId, "http://www.ebi.ac.uk/pride/archive/assays/" + assayId, "_blank"));
-                   if(!assayId.equals(obj.getAssays().get(obj.getAssays().size() - 1))) {
-                       panel.add(new InlineLabel(" "));
-                   }
-               }
-               return SafeHtmlUtils.fromSafeConstant(panel.toString());
-           }
-        };
-
-        multiAssayLinkColumn.setSortable(true);
-        sorter.setComparator(multiAssayLinkColumn, new Comparator<Peptide>() {
-            @Override
-            public int compare(Peptide o1, Peptide o2) {
-                StringBuilder sb1 = new StringBuilder();
-                StringBuilder sb2 = new StringBuilder();
-                for(String assay : o1.getAssays()) {
-                    sb1.append(assay);
-                }
-                for(String assay : o2.getAssays()) {
-                    sb2.append(assay);
-                }
-                return sb1.toString().compareTo(sb2.toString());
-            }
-        });
+//        Column<Peptide, SafeHtml> multiAssayLinkColumn = new Column<Peptide, SafeHtml>(new SafeHtmlCell()) {
+//           @Override
+//           public SafeHtml getValue(Peptide obj)
+//           {
+//               // create a direct link(s) to PRIDE Archive for the assay(s)
+//               FlowPanel panel = new FlowPanel();
+//               for (String assayId : obj.getAssays()) {
+//                   panel.add(new Anchor(assayId, "http://www.ebi.ac.uk/pride/archive/assays/" + assayId, "_blank"));
+//                   if(!assayId.equals(obj.getAssays().get(obj.getAssays().size() - 1))) {
+//                       panel.add(new InlineLabel(" "));
+//                   }
+//               }
+//               return SafeHtmlUtils.fromSafeConstant(panel.toString());
+//           }
+//        };
+//
+//        multiAssayLinkColumn.setSortable(true);
+//        sorter.setComparator(multiAssayLinkColumn, new Comparator<Peptide>() {
+//            @Override
+//            public int compare(Peptide o1, Peptide o2) {
+//                StringBuilder sb1 = new StringBuilder();
+//                StringBuilder sb2 = new StringBuilder();
+//                for(String assay : o1.getAssays()) {
+//                    sb1.append(assay);
+//                }
+//                for(String assay : o2.getAssays()) {
+//                    sb2.append(assay);
+//                }
+//                return sb1.toString().compareTo(sb2.toString());
+//            }
+//        });
 
         columns.add(sequenceColumn);
         columns.add(modsColumn);
-        columns.add(tissuesColumn);
-        columns.add(multiAssayLinkColumn);
+//        columns.add(tissuesColumn);
+//        columns.add(multiAssayLinkColumn);
         return columns;
     }
 
     public static List<String> getColumnTitles() {
         List<String> titles = new ArrayList<>();
-        Collections.addAll(titles, "Sequence", "Modifications", "Tissues", "Assays");
+//        Collections.addAll(titles, "Sequence", "Modifications", "Tissues", "Assays");
+        Collections.addAll(titles, "Sequence", "Modifications");
         return titles;
     }
 
     public static List<String> getColumnWidths() {
         List<String> widths = new ArrayList<>();
-        Collections.addAll(widths, "25%", "25%", "25%", "25%");
+//        Collections.addAll(widths, "25%", "25%", "25%", "25%");
+        Collections.addAll(widths, "50%", "50%");
         return widths;
     }
 

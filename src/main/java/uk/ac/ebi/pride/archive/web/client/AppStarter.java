@@ -93,8 +93,8 @@ class AppStarter implements RunAsyncCallback {
         Presenter headerPresenter = new HeaderPresenter(eventBus,
                                             (HeaderPresenter.ThisView) headerView);
 
-        ListView<String> tissueView = new GridView<>("Tissues", "tissue");
-        Presenter tissuePresenter = new TissuesPresenter(eventBus, tissueView);
+//        ListView<String> tissueView = new GridView<>("Tissues", "tissue");
+//        Presenter tissuePresenter = new TissuesPresenter(eventBus, tissueView);
 
         ListView<Multiset.Entry<String>> modView = new
                 GridView<>("Modifications", "modification");
@@ -125,7 +125,7 @@ class AppStarter implements RunAsyncCallback {
         // Startup the main presenter, it's used as a container to hold the
         // rest of the widget-showing modules.
         presenterList.add(headerPresenter);
-        presenterList.add(tissuePresenter);
+//        presenterList.add(tissuePresenter);
         presenterList.add(modPresenter);
         presenterList.add(groupPeptidePresenter);
         presenterList.add(coveragePresenter);
