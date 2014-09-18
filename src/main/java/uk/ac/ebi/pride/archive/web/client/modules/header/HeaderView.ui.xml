@@ -3,6 +3,9 @@
     <g:HTMLPanel>
         <g:VerticalPanel horizontalAlignment="left" ui:field="vPanel">
             <g:HTMLPanel>
+                <p>
+                    <a href="/pride">PRIDE</a> > <a href="/pride/archive">Archive</a> > Assay > <g:Anchor ui:field="assay"/>
+                </p>
                 <h2>
                 <g:Label ui:field="title"/>
                 </h2>

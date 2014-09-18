@@ -24,6 +24,7 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.ThisView>
                                         ProteinUpdateEvent.Handler {
 
     public interface ThisView extends View {
+        public void updateAssay(String assay);
         public void updateTitle(String title);
         public void updateDescription(String description);
         public void updateProperties(List<Pair<String, String>> links);
@@ -65,6 +66,11 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.ThisView>
         List<Protein> proteins = event.getProteins();
 
         if(!groupView) {
+            // extract the assay accession from the protein ID
+            // ToDo: this is not the safest way and should be improved in the future
+            String proteinId = proteins.get(0).getId();
+            String assayAccession = proteinId.split("__")[0];
+            getView().updateAssay(assayAccession);
             getView().updateTitle(proteins.get(0).getAccession());
             getView().updateDescription(proteins.get(0).getDescription());
             getView().clearProperties();
