@@ -8,7 +8,7 @@
     <groupId>uk.ac.ebi.pride.archive.web</groupId>
     <artifactId>pride-archive-webapp</artifactId>
     <packaging>war</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <properties>
         <gwtVersion>2.6.0</gwtVersion>
@@ -22,7 +22,19 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.2.9.RELEASE</version>
+        </dependency>
+
         <!-- GWT dependencies -->
+        <dependency>
+            <groupId>com.googlecode.gwtquery</groupId>
+            <artifactId>gwtquery</artifactId>
+            <version>1.4.2</version>
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
@@ -35,6 +47,12 @@
             <version>${gwtVersion}</version>
             <scope>provided</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.google.gwt</groupId>-->
+            <!--<artifactId>gwt-dev</artifactId>-->
+            <!--<version>${gwtVersion}</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!-- Google guava dependencies -->
         <dependency>
             <groupId>com.google.guava</groupId>
