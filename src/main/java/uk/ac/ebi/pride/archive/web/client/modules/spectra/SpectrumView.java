@@ -22,6 +22,10 @@ import java.util.Map;
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
  *
+ * Note: this viewer receives the whole JSON objectified to be shown. However, so far we haven found a way for the
+ * SpeckTackle JS component to be provided with objects to display. Right now it just uses the JSON file as a resource
+ * and therefore a URL is passed to the object.
+ *
  */
 public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implements SpectrumPresenter.ThisView {
 

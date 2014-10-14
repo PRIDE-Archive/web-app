@@ -6,6 +6,9 @@ import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Spectrum;
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
  *
+ * Note: the container SpectrumView receives the whole JSON objectified to be shown. However, so far we haven found a way for the
+ * SpeckTackle JS component to be provided with objects to display. Right now it just uses the JSON file as a resource
+ * and therefore a URL is passed to the object.
  */
 public class SpeckTackleWrapper extends JavaScriptObject {
 
@@ -31,7 +34,6 @@ public class SpeckTackleWrapper extends JavaScriptObject {
 
         $wnd.console.info("Spectrum: " + spectrumJson);
 
-//        return chart;
     }-*/;
 
 }
