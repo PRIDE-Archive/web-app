@@ -4,6 +4,7 @@ import uk.ac.ebi.pride.archive.web.client.datamodel.PeptideWithVariances;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Group;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Peptide;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Protein;
+import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Spectrum;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,7 @@ public interface DataServer {
         public void onGroupsRetrieved(Collection<Group> groups);
         public void onProteinsRetrieved(Collection<Protein> proteins);
         public void onPeptideVarianceListsRetrieved(Collection<PeptideWithVariances> peptides);
+        public void onSpectraRetrieved(List<Spectrum> spectra);
 
         public void onRetrievalError(ErroneousResult invalidResponse);
     }
@@ -39,11 +41,13 @@ public interface DataServer {
     public boolean isPeptideCached(String sequence, String proteinId, int position);
     public boolean isAnyPeptideCached(String sequence);
     public boolean isPeptideVarianceCached(String varianceId);
+    public boolean isSpectrumCached(String varianceId);
 
     public void requestGroups(List<String> ids);
     public void requestProteins(List<String> accessions);
     public void requestPeptideVariances(List<String> sequences, List<String> proteinIds, List<Integer> positions);
     public void requestPeptideVariances(List<String> sequences, List<String> proteinIds);
+    public void requestSpectrum(String peptideVarianceId);
 
     public List<Group> getCachedGroups(List<String> groupIds);
     public List<Protein> getCachedProteins(List<String> proteinIds);
@@ -56,4 +60,5 @@ public interface DataServer {
     public PeptideWithVariances getCachedPeptideVarianceList(String sequence, String proteinId, int position);
     public PeptideWithVariances getCachedPeptideVarianceList(String sequence, String proteinIds);
     public Peptide getCachedPeptideVariance(String varianceId);
+    public Spectrum getCachedSpectrum(String varianceId);
 }
