@@ -5,6 +5,7 @@ import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.pride.archive.web.client.datamodel.adapters.ProteinAdapter;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Peptide;
@@ -31,6 +32,7 @@ import java.util.Map;
 public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implements SpectrumPresenter.ThisView {
 
     private HTMLPanel panel;
+    private SimplePanel simplePanel;
     private ModuleContainer outerBox;
     private Map<VariancesPresenter, SpeckTackleWrapper> viewersCache; // TODO
 
@@ -38,6 +40,8 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
         viewersCache = new HashMap<>();
         outerBox = ModuleContainerFactory.getModuleContainer("Peak " +
                 "List");
+
+        //SpeckTackleWrapper.initChart();
     }
 
 
@@ -62,11 +66,14 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
 
     @Override
     public void showSpectrum(Peptide variance) {
-        outerBox.setContent(null);
-        panel = new HTMLPanel("<div id='stgraph' class='stgraph'></div>");
-        outerBox.setContent(panel);
+        simplePanel = new SimplePanel();
+        simplePanel.getElement().setId(HTMLPanel.createUniqueId());
+//        outerBox.setContent(null);
+//        panel = new HTMLPanel("<div id='stgraph' class='stgraph'></div>");
+        outerBox.setContent(simplePanel);
         outerBox.setOpen(true);
+        outerBox.setHeight("500px");
         String spectrumJson = "pride/archive/viewer/service/spectrum/" + variance.getId();
-        SpeckTackleWrapper.create(spectrumJson);
+        SpeckTackleWrapper.showSpectra(spectrumJson,simplePanel.getElement().getId());
     }
 }

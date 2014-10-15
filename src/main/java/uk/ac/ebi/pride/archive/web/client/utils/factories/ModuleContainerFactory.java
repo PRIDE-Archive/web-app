@@ -5,6 +5,7 @@ import uk.ac.ebi.pride.widgets.client.disclosure.client.ModuleContainer;
 
 /**
  * @author Antonio Fabregat <fabregat@ebi.ac.uk>
+ *
  */
 public abstract class ModuleContainerFactory {
 

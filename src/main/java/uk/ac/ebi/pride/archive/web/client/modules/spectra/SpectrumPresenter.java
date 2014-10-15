@@ -21,6 +21,10 @@ import uk.ac.ebi.pride.archive.web.client.utils.Console;
  */
 public class SpectrumPresenter extends Presenter<SpectrumPresenter.ThisView> implements VarianceUpdateEvent.Handler {
 
+    public interface ThisView extends View {
+        void showSpectrum(Peptide variance);
+    }
+
     public SpectrumPresenter(EventBus eventBus, ThisView view) {
         super(eventBus, view);
 
@@ -40,9 +44,6 @@ public class SpectrumPresenter extends Presenter<SpectrumPresenter.ThisView> imp
         }
     }
 
-    public interface ThisView extends View {
-        void showSpectrum(Peptide variance);
-    }
 
     // TODO - if we find a way to inject Specktackle with JSON objects instead of URLs, we can use this event type
 //    public void onSpectrumUpdateEvent(SpectrumUpdateEvent event) {
