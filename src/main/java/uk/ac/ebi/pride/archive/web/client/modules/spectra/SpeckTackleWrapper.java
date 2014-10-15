@@ -16,21 +16,6 @@ public class SpeckTackleWrapper extends JavaScriptObject {
 
     }
 
-    public static native void initChart() /*-{
-        $wnd.myChart = $wnd.st.chart.ms().xlabel("mz").ylabel("Intensity");
-
-        $wnd.myChart.render("#stgraph");     // render chart to id 'stgraph'
-
-        $wnd.chart_handle = $wnd.st.data          // new handler
-                .set()                    // of type set
-                .ylimits([0, 1000])       // y-domain limits
-        .x("peaks.mz")            // x-accessor
-                .y("peaks.intensity");    // y-accessor
-
-        // bind the data handler to the chart
-        $wnd.myChart.load($wnd.chart_handle);
-    }-*/;
-
     public static native SpeckTackleWrapper showSpectra(String spectrumJson, String holder) /*-{
 
         $wnd.myChart = $wnd.st.chart.ms().xlabel("mz").ylabel("Intensity");
