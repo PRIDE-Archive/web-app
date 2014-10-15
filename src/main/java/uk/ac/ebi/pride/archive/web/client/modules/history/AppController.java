@@ -322,7 +322,7 @@ public class AppController implements HasHandlers, DataServer.DataClient,
         }
         if (state.getSelectedVariances()!=null && state.getSelectedVariances().size()>0) { // right now we just show one peak list
             server.requestSpectrum(state.getSelectedVariances().get(0));
-            Console.info("Spectrum requested");
+            Console.info("(AppController): requestData - Spectrum requested");
         } else {
             Console.info("No variances selected");
         }
@@ -659,10 +659,16 @@ public class AppController implements HasHandlers, DataServer.DataClient,
                 PeptideUpdateEvent.fire(this, server.getCachedPeptideVarianceLists(sequences, proteins));
             }
         }
-        if(!newState.getSelectedVariances().equals(appState.getSelectedVariances())) {
+        if (!newState.getSelectedVariances().equals(appState.getSelectedVariances())) {
             VarianceUpdateEvent.fire(this, server.getCachedPeptideVariances(newState.getSelectedVariances()));
-            if (newState.getSelectedVariances() != null && newState.getSelectedVariances().size()>0)
-                SpectrumUpdateEvent.fire(this, server.getCachedSpectrum(newState.getSelectedVariances().get(0)));
+            // NOTE: the SpectrumUpdateEvent will not be used until we can do something with the retrieved Spectra
+            // right now we don't know how to use the Specktackle JavaScript component injecting objects
+            // we just use it passing the JSON file, and for that we just need the variance ID
+//            if (newState.getSelectedVariances() != null && newState.getSelectedVariances().size()>0) {
+//                if (server.isSpectrumCached(newState.getSelectedVariances().get(0))) {
+//                    SpectrumUpdateEvent.fire(this, server.getCachedSpectrum(newState.getSelectedVariances().get(0)));
+//                }
+//            }
         }
         if(!newState.getSelectedModifications().equals(appState.getSelectedModifications())) {
             ModificationUpdateEvent.fire(this, newState.getSelectedModifications());

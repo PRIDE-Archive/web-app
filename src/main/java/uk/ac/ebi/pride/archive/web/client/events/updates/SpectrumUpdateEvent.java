@@ -11,6 +11,9 @@ import java.util.List;
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
  *
+ * NOTE: the SpectrumUpdateEvent will not be used until we can do something with the retrieved Spectra
+ * right now we don't know how to use the Specktackle JavaScript component injecting objects
+ * we just use it passing the JSON file, and for that we just need the variance ID
  */
 public class SpectrumUpdateEvent extends GwtEvent<SpectrumUpdateEvent.Handler> {
 

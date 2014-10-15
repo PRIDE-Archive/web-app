@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import uk.ac.ebi.pride.archive.web.client.datamodel.adapters.ProteinAdapter;
+import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Peptide;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Spectrum;
 import uk.ac.ebi.pride.archive.web.client.events.updates.VarianceUpdateEvent;
 import uk.ac.ebi.pride.archive.web.client.modules.ViewWithUiHandlers;
@@ -60,12 +61,12 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
 
 
     @Override
-    public void showSpectrum(Spectrum spectrum) {
+    public void showSpectrum(Peptide variance) {
         outerBox.setContent(null);
         panel = new HTMLPanel("<div id='stgraph' class='stgraph'></div>");
         outerBox.setContent(panel);
         outerBox.setOpen(true);
-        String spectrumJson = "pride/archive/viewer/service/spectrum/" + spectrum.getId();
+        String spectrumJson = "pride/archive/viewer/service/spectrum/" + variance.getId();
         SpeckTackleWrapper.create(spectrumJson);
     }
 }
