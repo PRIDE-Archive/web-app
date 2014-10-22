@@ -16,7 +16,7 @@ public class SpeckTackleWrapper extends JavaScriptObject {
 
     }
 
-    public static native SpeckTackleWrapper showSpectra(String spectrumJson, String holder) /*-{
+    public static native SpeckTackleWrapper showSpectra(String spectrumJson, String annotationJson, String holder) /*-{
 
         $wnd.myChart = $wnd.st.chart.ms().xlabel("mz").ylabel("Intensity");
 
@@ -31,9 +31,7 @@ public class SpeckTackleWrapper extends JavaScriptObject {
         // bind the data handler to the chart
         $wnd.myChart.load($wnd.chart_handle);
 
-        $wnd.chart_handle.add(spectrumJson);
-
-        $wnd.console.info("Spectrum: " + spectrumJson);
+        $wnd.chart_handle.add(spectrumJson, annotationJson);
 
     }-*/;
 
