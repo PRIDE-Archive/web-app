@@ -55,34 +55,34 @@ class PeptideColumnProvider {
         });
 
         // Column that shows the tissues the peptide has been seen in.
-        TextColumn<PeptideMatch> tissuesColumn = new TextColumn<PeptideMatch>() {
-            @Override
-            public String getValue(PeptideMatch object) {
-                StringBuilder sb = new StringBuilder();
-                if (object.getTissues() != null) {     // ARCHIVE CHANGE
-                    for(String tissue : object.getTissues()) {
-                        sb.append(tissue).append(", ");
-                    }
-                }
-                return sb.length() == 0 ? "N/A" : sb.substring(0, sb.length() - 2);
-            }
-        };
-
-        tissuesColumn.setSortable(true);
-        sorter.setComparator(tissuesColumn, new Comparator<PeptideMatch>() {
-            @Override
-            public int compare(PeptideMatch o1, PeptideMatch o2) {
-                StringBuilder sb1 = new StringBuilder();
-                StringBuilder sb2 = new StringBuilder();
-                for(String tissue : o1.getTissues()) {
-                    sb1.append(tissue);
-                }
-                for(String tissue : o2.getTissues()) {
-                    sb2.append(tissue);
-                }
-                return sb1.toString().compareTo(sb2.toString());
-            }
-        });
+//        TextColumn<PeptideMatch> tissuesColumn = new TextColumn<PeptideMatch>() {
+//            @Override
+//            public String getValue(PeptideMatch object) {
+//                StringBuilder sb = new StringBuilder();
+//                if (object.getTissues() != null) {     // ARCHIVE CHANGE
+//                    for(String tissue : object.getTissues()) {
+//                        sb.append(tissue).append(", ");
+//                    }
+//                }
+//                return sb.length() == 0 ? "N/A" : sb.substring(0, sb.length() - 2);
+//            }
+//        };
+//
+//        tissuesColumn.setSortable(true);
+//        sorter.setComparator(tissuesColumn, new Comparator<PeptideMatch>() {
+//            @Override
+//            public int compare(PeptideMatch o1, PeptideMatch o2) {
+//                StringBuilder sb1 = new StringBuilder();
+//                StringBuilder sb2 = new StringBuilder();
+//                for(String tissue : o1.getTissues()) {
+//                    sb1.append(tissue);
+//                }
+//                for(String tissue : o2.getTissues()) {
+//                    sb2.append(tissue);
+//                }
+//                return sb1.toString().compareTo(sb2.toString());
+//            }
+//        });
 
         // Column that shows the modifications the peptide has.
         TextColumn<PeptideMatch> modsColumn = new TextColumn<PeptideMatch>() {
@@ -151,20 +151,21 @@ class PeptideColumnProvider {
         columns.add(sequenceColumn);
         columns.add(siteColumn);
         columns.add(modsColumn);
-        columns.add(tissuesColumn);
+//        columns.add(tissuesColumn);
         return columns;
     }
 
     public static List<String> getColumnTitles() {
         List<String> titles = new ArrayList<>();
-        Collections.addAll(titles, "Sequence", "Region", "Modifications",
-                                   "Tissues");
+//        Collections.addAll(titles, "Sequence", "Region", "Modifications", "Tissues");
+        Collections.addAll(titles, "Sequence", "Region", "Modifications");
         return titles;
     }
 
     public static List<String> getColumnWidths() {
         List<String> widths = new ArrayList<>();
-        Collections.addAll(widths, "30%", "10%", "30%", "30%");
+//        Collections.addAll(widths, "30%", "10%", "30%", "30%");
+        Collections.addAll(widths, "50%", "10%", "40%");
         return widths;
     }
 

@@ -6,15 +6,6 @@
                 "url": "viewer/viewer.nocache.js"
             }
         ],
-        "breadcrumbItems": [{
-            "title": "PRIDE",
-            "href": "../../"
-        },{
-            "title": "PRIDE Archive",
-            "href": "../"
-        },{
-            "title": "Viewer"
-        }],
         "lastInBody": true,
         "cssList": [
             {
@@ -25,24 +16,40 @@
         "bodyMaxWidth": 1050
     },
     "localMasthead": {
+        "style": "logo-title",
         "title": "PRIDE Archive",
+        "homepageUrl": "//www.ebi.ac.uk/pride/archive",
+        "logo": {
+            "src": "//www.ebi.ac.uk/pride/resources/logos/pride_logo.jpg",
+            "alt": "logo",
+            "width": "64",
+            "height": "64"
+        },
         "search": {
             "btnText": "Search",
-            "action": "../search",
+            "action": "../simpleSearch",
             "method": "get",
             "inputName": "q",
             "examples": [
                 {
-                    "title": "albumin",
-                    "href": "../search?q=albumin"
+                    "title": "stress",
+                    "href": "../simpleSearch?q=stress"
                 },
                 {
-                    "title": "Q08648",
-                    "href": "../search?q=Q0864"
+                    "title": "human",
+                    "href": "../simpleSearch?q=human"
                 },
                 {
-                    "title": "kinase",
-                    "href": "../search?q=kinase"
+                    "title": "blood",
+                    "href": "../simpleSearch?q=blood"
+                },
+                {
+                    "title": "P02768",
+                    "href": "../simpleSearch?q=P02768"
+                },
+                {
+                    "title": "MDPNTIIEALR*",
+                    "href": "../simpleSearch?q=MDPNTIIEALR*"
                 }
             ]
         },

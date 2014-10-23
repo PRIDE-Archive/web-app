@@ -27,6 +27,9 @@ public class HeaderView implements HeaderPresenter.ThisView {
     VerticalPanel vPanel;
 
     @UiField
+    Anchor assay;
+
+    @UiField
     Label title;
 
     @UiField
@@ -44,6 +47,13 @@ public class HeaderView implements HeaderPresenter.ThisView {
         description.setText("");
 
     }
+
+    @Override
+    public void updateAssay(String assay) {
+        this.assay.setHref("/pride/archive/assays/"+ assay);
+        this.assay.setText(assay);
+    }
+
     @Override
     public void updateTitle(String title) {
        this.title.setText(title);
