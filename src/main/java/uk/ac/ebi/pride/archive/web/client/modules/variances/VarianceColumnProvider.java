@@ -141,8 +141,19 @@ class VarianceColumnProvider {
 //            }
 //        });
 
+        // Column that shows the modifications the peptide has.
+        TextColumn<Peptide> scoresColumn = new TextColumn<Peptide>() {
+            @Override
+            public String getValue(Peptide object) {
+                return object.getScores();
+            }
+        };
+
+
+
         columns.add(sequenceColumn);
         columns.add(modsColumn);
+        columns.add(scoresColumn);
 //        columns.add(tissuesColumn);
 //        columns.add(multiAssayLinkColumn);
         return columns;
@@ -151,14 +162,14 @@ class VarianceColumnProvider {
     public static List<String> getColumnTitles() {
         List<String> titles = new ArrayList<>();
 //        Collections.addAll(titles, "Sequence", "Modifications", "Tissues", "Assays");
-        Collections.addAll(titles, "Sequence", "Modifications");
+        Collections.addAll(titles, "Sequence", "Modifications", "Scores");
         return titles;
     }
 
     public static List<String> getColumnWidths() {
         List<String> widths = new ArrayList<>();
 //        Collections.addAll(widths, "25%", "25%", "25%", "25%");
-        Collections.addAll(widths, "50%", "50%");
+        Collections.addAll(widths, "40%", "40%", "20%");
         return widths;
     }
 
