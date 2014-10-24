@@ -12,6 +12,7 @@ public interface Protein {
     public String getAccession();
     public int getTaxonID();
     public String getSequence();
+    public Boolean getIsInferredSequence();
     public String getDescription();
     public List<ModifiedLocation> getModifiedLocations();
     public List<String> getTissues();

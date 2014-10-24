@@ -73,7 +73,9 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.ThisView>
             String assayAccession = proteinId.split("__")[0];
             getView().updateAssay(assayAccession);
             getView().updateTitle(proteins.get(0).getAccession());
-            getView().updateDisclaimer("Note: the protein sequence may have been inferred from the protein accession and therefore not all peptides may match correctly.");
+            if (proteins.get(0).getIsInferredSequence()) {
+                getView().updateDisclaimer("Note: this protein sequence has been inferred from the submitted protein accession. Peptide mapping errors can therefore occur.");
+            }
             getView().updateDescription(proteins.get(0).getDescription());
             getView().clearProperties();
         }
