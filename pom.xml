@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwtVersion}-rc3</version>
+                <version>${gwtVersion}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -134,6 +134,11 @@
             <artifactId>gwt-user</artifactId>
             <version>${gwtVersion}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwtVersion}</version>
         </dependency>
         <!-- Google guava dependencies -->
         <dependency>
