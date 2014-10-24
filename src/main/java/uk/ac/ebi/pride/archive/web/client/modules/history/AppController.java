@@ -321,8 +321,8 @@ public class AppController implements HasHandlers, DataServer.DataClient,
             }
         }
         if (state.getSelectedVariances()!=null && state.getSelectedVariances().size()>0) { // right now we just show one peak list
-            server.requestSpectrum(state.getSelectedVariances().get(0));
-            Console.info("(AppController): requestData - Spectrum requested");
+//            server.requestSpectrum(state.getSelectedVariances().get(0));
+//            Console.info("(AppController): requestData - Spectrum requested");
         } else {
             Console.info("No variances selected");
         }
