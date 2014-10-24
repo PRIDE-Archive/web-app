@@ -4,6 +4,7 @@
     <inherits name='com.google.gwt.user.User'/>
     <inherits name='com.google.gwt.http.HTTP'/>
     <inherits name="com.google.web.bindery.autobean.AutoBean"/>
+    <inherits name="com.google.gwt.query.Query"/>
 
     <!-- Guava library                                              -->
     <inherits name="com.google.common.collect.Collect"/>
@@ -11,6 +12,14 @@
     <!-- PRIDE modules                                              -->
     <inherits name="uk.ac.ebi.pride.widgets.PrideWidgets" />
     <inherits name="uk.ac.ebi.pride.archive.web.googleanalytics.googleanalytics" />
+
+    <!--Spectrum Viewer-->
+    <!--<inherits name="uk.ac.ebi.pride.archive.web.client.modules.spectra.SpectraView" />-->
+    <stylesheet src="../static/css/st.css"/>
+    <script src="../static/_js/libs/jquery/jquery.js"/>
+    <script src="../static/_js/libs/d3/d3.js"/>
+    <script src="../static/_js/st.js"/>
+
 
     <!-- Specify the app entry point class.                         -->
     <entry-point class='uk.ac.ebi.pride.archive.web.client.WebApp'/>

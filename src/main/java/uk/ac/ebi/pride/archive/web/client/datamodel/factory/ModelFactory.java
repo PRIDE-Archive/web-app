@@ -5,6 +5,7 @@ import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import uk.ac.ebi.pride.archive.web.client.exceptions.InvalidJSONException;
+import uk.ac.ebi.pride.archive.web.client.utils.Console;
 
 /**
  * @author Pau Ruiz Safont <psafont@ebi.ac.uk>
@@ -18,6 +19,8 @@ public abstract class ModelFactory {
         AutoBean<PeptideMatch> peptideMatch();
         AutoBean<PeptideList> peptideList();
         AutoBean<Peptide> peptide();
+        AutoBean<Spectrum> spectrum();
+        AutoBean<SpectrumPeak> spectrumPeak();
         AutoBean<ModifiedLocation> modifiedLocation();
     }
 
@@ -25,6 +28,7 @@ public abstract class ModelFactory {
             InvalidJSONException {
         MyFactory factory = GWT.create(MyFactory.class);
         try {
+            Console.info("JSON: " + json);
             AutoBean<T> bean = AutoBeanCodex.decode(factory, tClass, json);
             return bean.as();
         }

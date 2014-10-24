@@ -29,6 +29,8 @@ import uk.ac.ebi.pride.archive.web.client.modules.modifications.ModificationsPre
 import uk.ac.ebi.pride.archive.web.client.modules.peptides.PeptidesPresenter;
 import uk.ac.ebi.pride.archive.web.client.modules.sequence.SequencePresenter;
 import uk.ac.ebi.pride.archive.web.client.modules.sequence.SequenceView;
+import uk.ac.ebi.pride.archive.web.client.modules.spectra.SpectrumPresenter;
+import uk.ac.ebi.pride.archive.web.client.modules.spectra.SpectrumView;
 import uk.ac.ebi.pride.archive.web.client.modules.tissues.TissuesPresenter;
 import uk.ac.ebi.pride.archive.web.client.modules.variances.VariancesPresenter;
 import uk.ac.ebi.pride.archive.web.client.modules.whistleblower.WhistleBlower;
@@ -122,6 +124,10 @@ class AppStarter implements RunAsyncCallback {
         Presenter variancePresenter = new VariancesPresenter(eventBus,
                 varianceView);
 
+
+        View spectrumView = new SpectrumView();
+        Presenter spectrumPresenter = new SpectrumPresenter(eventBus, (SpectrumPresenter.ThisView) spectrumView);
+
         // Startup the main presenter, it's used as a container to hold the
         // rest of the widget-showing modules.
         presenterList.add(headerPresenter);
@@ -132,6 +138,7 @@ class AppStarter implements RunAsyncCallback {
         presenterList.add(sequencePresenter);
         presenterList.add(peptidePresenter);
         presenterList.add(variancePresenter);
+        presenterList.add(spectrumPresenter);
 
         for(Presenter p : presenterList) {
             placeHolderList.add(new SimplePanel());

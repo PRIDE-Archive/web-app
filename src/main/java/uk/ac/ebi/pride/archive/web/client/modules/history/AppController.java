@@ -17,6 +17,7 @@ import uk.ac.ebi.pride.archive.web.client.events.updates.*;
 import uk.ac.ebi.pride.archive.web.client.exceptions.IllegalRegionValueException;
 import uk.ac.ebi.pride.archive.web.client.exceptions.InconsistentStateException;
 import uk.ac.ebi.pride.archive.web.client.modules.data.DataServer;
+import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.PeptideUtils;
 import uk.ac.ebi.pride.archive.web.client.utils.RegionUtils;
 import uk.ac.ebi.pride.archive.web.client.utils.StringUtils;
@@ -27,6 +28,7 @@ import java.util.*;
  * @author Pau Ruiz Safont <psafont@ebi.ac.uk>
  *         Date: 22/10/13
  *         Time: 10:38
+ * @author Jose A Dianes <jdianes@ebi.ac.uk>
  */
 public class AppController implements HasHandlers, DataServer.DataClient,
                                       ValueChangeHandler<String>,
@@ -147,6 +149,11 @@ public class AppController implements HasHandlers, DataServer.DataClient,
     }
 
     @Override
+    public void onSpectraRetrieved(List<Spectrum> spectra) {
+        processStateQueue();
+    }
+
+    @Override
     public void onRetrievalError(DataServer.ErroneousResult erroneousResult) {
         //we have to cleanup the request that caused the error, we need not
         // only the message, but what caused it.
@@ -177,6 +184,14 @@ public class AppController implements HasHandlers, DataServer.DataClient,
                 }
             }
         }
+        else if(erroneousResult.getRequestedType() == Spectrum.class) {
+            for(State state : stateQueue) {
+                if(state.getSelectedVariances().contains(
+                        erroneousResult.getRequestedIdentifier())) {
+                    statesToRemove.add(state);
+                }
+            }
+        }
         else {
             Document.get().setTitle(defaultPageTitle);
             appState = State.getInvalidState();
@@ -202,6 +217,7 @@ public class AppController implements HasHandlers, DataServer.DataClient,
     }
 
     private void requestData(State state) {
+        Console.info("(AppController): requestData for History Token " + state.getHistoryToken());
         // Check what information is already cached or already requested to
         // notify the application that some data may take some time to be
         // retrieved, we don't want the users to think that the web app is
@@ -303,6 +319,12 @@ public class AppController implements HasHandlers, DataServer.DataClient,
                 server.requestPeptideVariances(matchSequences, matchProteins, matchPositions);
                 server.requestPeptideVariances(peptiSequences, peptiProteins);
             }
+        }
+        if (state.getSelectedVariances()!=null && state.getSelectedVariances().size()>0) { // right now we just show one peak list
+            server.requestSpectrum(state.getSelectedVariances().get(0));
+            Console.info("(AppController): requestData - Spectrum requested");
+        } else {
+            Console.info("No variances selected");
         }
     }
 
@@ -637,8 +659,16 @@ public class AppController implements HasHandlers, DataServer.DataClient,
                 PeptideUpdateEvent.fire(this, server.getCachedPeptideVarianceLists(sequences, proteins));
             }
         }
-        if(!newState.getSelectedVariances().equals(appState.getSelectedVariances())) {
+        if (!newState.getSelectedVariances().equals(appState.getSelectedVariances())) {
             VarianceUpdateEvent.fire(this, server.getCachedPeptideVariances(newState.getSelectedVariances()));
+            // NOTE: the SpectrumUpdateEvent will not be used until we can do something with the retrieved Spectra
+            // right now we don't know how to use the Specktackle JavaScript component injecting objects
+            // we just use it passing the JSON file, and for that we just need the variance ID
+//            if (newState.getSelectedVariances() != null && newState.getSelectedVariances().size()>0) {
+//                if (server.isSpectrumCached(newState.getSelectedVariances().get(0))) {
+//                    SpectrumUpdateEvent.fire(this, server.getCachedSpectrum(newState.getSelectedVariances().get(0)));
+//                }
+//            }
         }
         if(!newState.getSelectedModifications().equals(appState.getSelectedModifications())) {
             ModificationUpdateEvent.fire(this, newState.getSelectedModifications());

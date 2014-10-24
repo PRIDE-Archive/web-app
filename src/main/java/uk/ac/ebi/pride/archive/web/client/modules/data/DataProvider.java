@@ -1,10 +1,12 @@
 package uk.ac.ebi.pride.archive.web.client.modules.data;
 
+import com.google.common.collect.Multiset;
 import uk.ac.ebi.pride.archive.web.client.datamodel.PeptideWithVariances;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.*;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.GroupRetriever;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.PeptideVarianceRetriever;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.ProteinRetriever;
+import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.SpectrumRetriever;
 import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.Pair;
 import uk.ac.ebi.pride.archive.web.client.utils.Triplet;
@@ -21,6 +23,8 @@ import java.util.*;
  * @author Pau Ruiz Safont <psafont@ebi.ac.uk>
  *         Date: 25/10/13
  *         Time: 15:10
+ * @author Jose A Dianes <jdianes@ebi.ac.uk>
+ *
  */
 public class DataProvider implements DataServer, TransactionHandler {
     private DataServer.DataClient client = null;
@@ -44,8 +48,11 @@ public class DataProvider implements DataServer, TransactionHandler {
     //the Map is <peptide sequence, protein acce>
     private List<Map<Triplet<String, Integer, String>, Boolean>> peptideVarianceRequests = new ArrayList<>();
     private final PeptideVarianceRetriever peptideVarianceRetriever;
-
     private Map<String, Peptide> peptideVarianceCache = new HashMap<>();
+
+    private Map<String, Spectrum> spectrumCache = new HashMap<>();
+    private List<Map<String, Boolean>> spectrumRequests = new ArrayList<>();
+    private final SpectrumRetriever spectrumRetriever;
 
     public DataProvider(String webServiceRoot) {
         groupRetriever = new GroupRetriever(webServiceRoot);
@@ -56,6 +63,9 @@ public class DataProvider implements DataServer, TransactionHandler {
 
         peptideVarianceRetriever = new PeptideVarianceRetriever(webServiceRoot);
         peptideVarianceRetriever.addHandler(this);
+
+        spectrumRetriever = new SpectrumRetriever(webServiceRoot);
+        spectrumRetriever.addHandler(this);
     }
 
     @Override
@@ -143,6 +153,34 @@ public class DataProvider implements DataServer, TransactionHandler {
 
             dispatchPeptideVariances();
         }
+        else if(transaction.getResponse() instanceof Spectrum) {
+            Spectrum spectrumReceived = (Spectrum) transaction.getResponse();
+            if (Console.VERBOSE) {
+                if (spectrumReceived.getPeaks()!= null) {
+                    Console.info("Received spectrum for variance with ID " + spectrumReceived.getId() + " and " +
+                            spectrumReceived.getPeaks().size() + " peaks");
+                } else {
+                    Console.info("Received spectrum for variance with ID " + spectrumReceived.getId());
+                }
+            }
+            if(spectrumReceived.getPeaks() == null) {
+                onErroneousResult(new GenericErroneousResult(transaction.getResponse(),
+                        transaction.getRequestedName()));
+                return;
+            }
+            spectrumCache.put(transaction.getRequestedName(), spectrumReceived);
+
+            // Search for the spectrum in the request cache
+            // and update the pending requests
+            for(Map<String, Boolean> batchRequest : spectrumRequests) {
+                if(batchRequest.containsKey(spectrumReceived.getId())) {
+                    batchRequest.put(spectrumReceived.getId(), true);
+                }
+            }
+
+            dispatchSpectra();
+
+        }
         else if(transaction.getResponse() instanceof ErroneousResult) {
             if (Console.VERBOSE) {
                 Console.info("Received erroneous result.");
@@ -191,6 +229,11 @@ public class DataProvider implements DataServer, TransactionHandler {
     @Override
     public boolean isPeptideVarianceCached(String varianceId) {
         return peptideVarianceCache.containsKey(varianceId);
+    }
+
+    @Override
+    public boolean isSpectrumCached(String spectrumId) {
+        return spectrumCache.containsKey(spectrumId);
     }
 
     @Override
@@ -252,6 +295,23 @@ public class DataProvider implements DataServer, TransactionHandler {
         List<Integer> positions = new ArrayList<>(sequences.size());
         while(positions.size() < sequences.size()) positions.add(-1);
         requestPeptideVariances(sequences, proteinIds, positions);
+    }
+
+    @Override
+    public void requestSpectrum(String varianceId) {
+        Map<String, Boolean> request = new HashMap<>();
+
+        request.put(varianceId, isSpectrumCached(varianceId));
+        spectrumRequests.add(request);
+
+        if(!isSpectrumCached(varianceId)) {
+            // no need for explicit taxon annotation
+            spectrumRetriever.retrieveData(varianceId, null);
+            // we could also check whether there's a pending request or not
+            // ...
+        } else {
+            dispatchSpectra();
+        }
     }
 
     @Override
@@ -333,6 +393,11 @@ public class DataProvider implements DataServer, TransactionHandler {
         return peptideVarianceCache.get(varianceId);
     }
 
+    @Override
+    public Spectrum getCachedSpectrum(String varianceId) {
+        return spectrumCache.get(varianceId);
+    }
+
     private void onErroneousResult(ErroneousResult error) {
         client.onRetrievalError(error);
     }
@@ -399,5 +464,24 @@ public class DataProvider implements DataServer, TransactionHandler {
             peptideVarianceRequests.remove(batchRequest);
         }
         client.onPeptideVarianceListsRetrieved(peptideVariances);
+    }
+
+    private void dispatchSpectra() {
+        List<Map<String, Boolean>> toRemove = new ArrayList<>();
+        List<Spectrum> spectra = new ArrayList<>();
+
+        for(Map<String, Boolean> batchRequest : spectrumRequests) {
+            if(!batchRequest.containsValue(false)) {
+                toRemove.add(batchRequest);
+
+                for(Map.Entry<String, Boolean> entry : batchRequest.entrySet()) {
+                    spectra.add(spectrumCache.get(entry.getKey()));
+                }
+            }
+        }
+        for(Map<String, Boolean> batchRequest : toRemove) {
+            spectrumRequests.remove(batchRequest);
+        }
+        client.onSpectraRetrieved(spectra);
     }
 }

@@ -38,6 +38,7 @@ class DataRequester implements RequestCallback {
 
     @Override
     public void onResponseReceived(Request request, Response response) {
+        Console.info("(DataRequester): onResponseReceived status=" + response.getStatusCode());
         if(response == null) {
             if (Console.VERBOSE) {
                 Console.info("Error: server response is null!");

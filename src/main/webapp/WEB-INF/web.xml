@@ -10,6 +10,24 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
+    <!--Force UTF-8 encoding-->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- RESTful WS PROXY Configuration -->
     <!-- adapters for PRIDE web service calls /pride/ws -->
     <servlet>
@@ -17,13 +35,15 @@
         <servlet-class>uk.ac.ebi.pride.web.util.servlet.proxy.ProxyServlet</servlet-class>
         <init-param>
             <param-name>proxyHost</param-name>
+            <!--<param-value>ves-ebi-4d.ebi.ac.uk</param-value>-->
             <!--<param-value>wwwdev.ebi.ac.uk</param-value>-->
             <param-value>localhost</param-value>
         </init-param>
         <init-param>
             <param-name>proxyPort</param-name>
-            <!--<param-value>80</param-value>-->
+            <!--<param-value>8110</param-value>-->
             <param-value>9090</param-value>
+            <!--<param-value>80</param-value>-->
         </init-param>
         <init-param>
             <param-name>proxyPath</param-name>
