@@ -26,6 +26,7 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.ThisView>
     public interface ThisView extends View {
         public void updateAssay(String assay);
         public void updateTitle(String title);
+        public void updateDisclaimer(String disclaimer);
         public void updateDescription(String description);
         public void updateProperties(List<Pair<String, String>> links);
         public void clearProperties();
@@ -72,6 +73,7 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.ThisView>
             String assayAccession = proteinId.split("__")[0];
             getView().updateAssay(assayAccession);
             getView().updateTitle(proteins.get(0).getAccession());
+            getView().updateDisclaimer("Note: the protein sequence may have been inferred from the protein accession and therefore not all peptides may match correctly.");
             getView().updateDescription(proteins.get(0).getDescription());
             getView().clearProperties();
         }

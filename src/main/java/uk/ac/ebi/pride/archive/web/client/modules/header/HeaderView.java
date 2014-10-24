@@ -33,6 +33,10 @@ public class HeaderView implements HeaderPresenter.ThisView {
     Label title;
 
     @UiField
+    Label disclaimer;
+
+
+    @UiField
     Label description;
 
     @UiField
@@ -57,6 +61,11 @@ public class HeaderView implements HeaderPresenter.ThisView {
     @Override
     public void updateTitle(String title) {
        this.title.setText(title);
+    }
+
+    @Override
+    public void updateDisclaimer(String disclaimer) {
+        this.disclaimer.setText(disclaimer);
     }
 
     @Override
