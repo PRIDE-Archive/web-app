@@ -60,6 +60,11 @@ public class EmptyPeptideMatch implements PeptideMatch{
         return Collections.emptyList();
     }
 
+    @Override
+    public String getScores() {
+        return "";
+    }
+
     private static class LazyHolder {
         private static final EmptyPeptideMatch instance = new EmptyPeptideMatch();
     }

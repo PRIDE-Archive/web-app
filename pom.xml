@@ -11,7 +11,7 @@
     <version>1.0.2-SNAPSHOT</version>
 
     <properties>
-        <gwtVersion>2.6.0</gwtVersion>
+        <gwtVersion>2.6.1</gwtVersion>
 
         <!-- the webapp directory
              Attention: need to be the same as the finalName!
@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwtVersion}-rc3</version>
+                <version>${gwtVersion}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -109,7 +109,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwtVersion}-rc3</version>
+                <version>${gwtVersion}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -135,6 +135,12 @@
             <version>${gwtVersion}</version>
             <scope>provided</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.googlecode.gwtquery</groupId>-->
+            <!--<artifactId>gwtquery</artifactId>-->
+            <!--<version>1.4.2</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!-- Google guava dependencies -->
         <dependency>
             <groupId>com.google.guava</groupId>

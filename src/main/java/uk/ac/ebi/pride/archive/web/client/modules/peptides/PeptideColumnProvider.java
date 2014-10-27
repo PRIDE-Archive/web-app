@@ -39,7 +39,11 @@ class PeptideColumnProvider {
         TextColumn<PeptideMatch> siteColumn = new TextColumn<PeptideMatch>() {
             @Override
             public String getValue(PeptideMatch object) {
-                return object.getPosition() + "-" + (object.getPosition() + object.getSequence().length() - 1);
+                if (object.getPosition() < 0) {
+                    return "-";
+                } else {
+                    return object.getPosition() + "-" + (object.getPosition() + object.getSequence().length() - 1);
+                }
             }
         };
 

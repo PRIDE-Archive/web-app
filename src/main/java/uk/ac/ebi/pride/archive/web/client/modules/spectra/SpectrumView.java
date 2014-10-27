@@ -73,8 +73,10 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
         outerBox.setContent(simplePanel);
         outerBox.setOpen(true);
         outerBox.setHeight("500px");
-        String spectrumJson = "/pride/archive/viewer/service/spectrum/" + variance.getId();
-        String annotationJson = "/pride/archive/viewer/service/spectrum/" + variance.getId() + "/annotations";
+//        String spectrumJson = "/pride/archive/viewer/service/spectrum/" + variance.getId();
+        String spectrumJson = "/Users/jdianes/Documents/workspace/pride-archive-webapp/pride-archive-webapp/src/main/webapp/static/15814.json";
+//        String annotationJson = "/pride/archive/viewer/service/spectrum/" + variance.getId() + "/annotations";
+        String annotationJson = "/Users/jdianes/Documents/workspace/pride-archive-webapp/pride-archive-webapp/src/main/webapp/static/15814_anno.json";
         SpeckTackleWrapper.showSpectra(spectrumJson, annotationJson, simplePanel.getElement().getId());
     }
 }
