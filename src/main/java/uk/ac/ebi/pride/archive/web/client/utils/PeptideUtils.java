@@ -265,4 +265,22 @@ public class PeptideUtils {
         }
         return false;
     }
+
+    public static boolean peptideCoversRange(PeptideMatch peptide, int start, int end) {
+        if (peptide == null) {
+            return false;
+        }
+        int pepStart = peptide.getPosition();
+        int pepEnd = pepStart + peptide.getSequence().length() -1;
+        return (start >= pepStart && end <= pepEnd);
+    }
+    public static List<PeptideMatch> filterPeptideMatchesNotCoveringRange(List<? extends PeptideMatch> peptides, int start, int end) {
+        List<PeptideMatch> filteredList = new ArrayList<PeptideMatch>();
+        for (PeptideMatch peptide : peptides) {
+            if (peptideCoversRange(peptide, start, end)) {
+                filteredList.add(peptide);
+            }
+        }
+        return filteredList;
+    }
 }

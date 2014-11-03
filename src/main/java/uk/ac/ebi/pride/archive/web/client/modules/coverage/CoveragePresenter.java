@@ -222,6 +222,7 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
         StateChanger changer = new StateChanger();
         List<Region> region = new ArrayList<>();
         List<PeptideMatch> peptides;
+        List<String> modifications;
 
         try {
             region.add(new Region(event.getStart(), event.getStart() + event
@@ -233,6 +234,13 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
 
             if(peptides.size() != peptideMatchSelection.size()) {
                 changer.addPeptideChange(peptides);
+            }
+
+            modifications = filterModificationsNotIn(currentModifications,
+                    event.getStart(), event.getStart() + event.getLength() - 1);
+
+            if (modifications.size() != currentModifications.size()) {
+                changer.addModificationChange(modifications);
             }
 
             UserAction action = new UserAction(UserAction.Type.region,
@@ -251,6 +259,7 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
         UserAction action = UserAction.emptyAction();
         List<PeptideMatch> peptides;
         Region region;
+        List<String> modifications;
 
         // if the selection is done right to left then start > end
         int start = event.getStart() < event.getEnd() ? event.getStart() : event.getEnd();
@@ -281,6 +290,10 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
             if(peptides.size() != peptideMatchSelection.size()) {
                 changer.addPeptideChange(peptides);
             }
+
+            // update the modifications, if they are outside the region, they should be reset/removed
+            modifications = filterModificationsNotIn(currentModifications, start, end);
+            changer.addModificationChange(modifications);
 
         } catch (IllegalRegionValueException e) {
             action = new UserAction(UserAction.Type.region,
@@ -426,6 +439,7 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
         StateChanger changer = new StateChanger();
         List<Region> regions = new ArrayList<>();
         List<String> modifications = new ArrayList<>();
+        List<PeptideMatch> peptides;
         UserAction action = new UserAction(UserAction.Type.modification,
                                            "Click Set");
 
@@ -444,7 +458,28 @@ public class CoveragePresenter extends Presenter<CoveragePresenter.ThisView>
             }
             modifications.add(event.getSite().toString());
             changer.addModificationChange(modifications);
+
+            // if a modification has been selected we want to de-select
+            // any peptides that do not cover the modification location
+            List<PeptideMatch> noPeptides = PeptideUtils.filterPeptideMatchesNotCoveringRange(peptideMatchSelection, event.getSite(), event.getSite());
+            changer.addPeptideChange(noPeptides);
+
             StateChangingActionEvent.fire(this, changer, action);
         }
     }
+
+    private List<String> filterModificationsNotIn(List<String> currentModifications, int start, int end) {
+        List<String> filteredMods = new ArrayList<>();
+        for(String mod : currentModifications) {
+            try {
+                int location = Integer.parseInt(mod);
+                if (location >= start && location <= end) {
+                    filteredMods.add(mod);
+                }
+            } catch(NumberFormatException ignore) {}
+        }
+        return filteredMods;
+    }
+
+
 }
