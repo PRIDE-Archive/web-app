@@ -18,15 +18,17 @@ public class SpeckTackleWrapper extends JavaScriptObject {
 
     public static native SpeckTackleWrapper showSpectra(String spectrumJson, String annotationJson, String holder) /*-{
 
-        $wnd.myChart = $wnd.st.chart.ms().xlabel("mz").ylabel("Intensity");
+        $wnd.myChart = $wnd.st.chart.ms().xlabel("m/z").ylabel("Intensity");
 
         $wnd.myChart.render("#"+holder);     // render chart to id 'stgraph'
 
         $wnd.chart_handle = $wnd.st.data          // new handler
             .set()                    // of type set
-            .ylimits([0, 1000])       // y-domain limits
+           // .ylimits([0, 1000])       // y-domain limits
             .x("peaks.mz")            // x-accessor
             .y("peaks.intensity");    // y-accessor
+
+        $wnd.chart_handle.annotationColumn($wnd.st.annotation.ANNOTATION, "Ions");
 
         // bind the data handler to the chart
         $wnd.myChart.load($wnd.chart_handle);

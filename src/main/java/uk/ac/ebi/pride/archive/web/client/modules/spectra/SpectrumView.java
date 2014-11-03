@@ -14,6 +14,7 @@ import uk.ac.ebi.pride.archive.web.client.events.updates.VarianceUpdateEvent;
 import uk.ac.ebi.pride.archive.web.client.modules.ViewWithUiHandlers;
 import uk.ac.ebi.pride.archive.web.client.modules.sequence.SequenceUiHandler;
 import uk.ac.ebi.pride.archive.web.client.modules.variances.VariancesPresenter;
+import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.factories.ModuleContainerFactory;
 import uk.ac.ebi.pride.widgets.client.disclosure.client.ModuleContainer;
 import uk.ac.ebi.pride.widgets.client.sequence.client.SequenceViewer;
@@ -74,9 +75,9 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
         outerBox.setOpen(true);
         outerBox.setHeight("500px");
         String spectrumJson = "/pride/archive/viewer/service/spectrum/" + variance.getId();
-//        String spectrumJson = "/Users/jdianes/Documents/workspace/pride-archive-webapp/pride-archive-webapp/src/main/webapp/static/15814.json";
         String annotationJson = "/pride/archive/viewer/service/spectrum/" + variance.getId() + "/annotations";
-//        String annotationJson = "/Users/jdianes/Documents/workspace/pride-archive-webapp/pride-archive-webapp/src/main/webapp/static/15814_anno.json";
+        Console.info("Spectrum: " + spectrumJson);
+        Console.info("Annotations: " + annotationJson);
         SpeckTackleWrapper.showSpectra(spectrumJson, annotationJson, simplePanel.getElement().getId());
     }
 }
