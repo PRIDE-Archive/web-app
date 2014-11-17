@@ -36,14 +36,14 @@
         <init-param>
             <param-name>proxyHost</param-name>
             <!--<param-value>ves-ebi-4d.ebi.ac.uk</param-value>-->
-            <!--<param-value>wwwdev.ebi.ac.uk</param-value>-->
-            <param-value>localhost</param-value>
+            <param-value>wwwdev.ebi.ac.uk</param-value>
+            <!--<param-value>localhost</param-value>-->
         </init-param>
         <init-param>
             <param-name>proxyPort</param-name>
             <!--<param-value>8110</param-value>-->
-            <param-value>9090</param-value>
-            <!--<param-value>80</param-value>-->
+            <!--<param-value>9090</param-value>-->
+            <param-value>80</param-value>
         </init-param>
         <init-param>
             <param-name>proxyPath</param-name>
