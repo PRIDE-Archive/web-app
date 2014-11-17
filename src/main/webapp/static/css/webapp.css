@@ -39,6 +39,20 @@ th, td{
     z-index: 101;
 }
 
-.disclaimer{
+#left, #right {
+    display: inline-block;
+}
+
+.protein-title {
+    font-weight: bold;
+}
+
+.protein-desc {
+    font-size: 120%;
+    font-weight: bold;
+    cursor: help;
+}
+.disclaimer {
     color: red;
+    cursor: help;
 }

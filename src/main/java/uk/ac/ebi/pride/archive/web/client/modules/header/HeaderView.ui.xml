@@ -6,21 +6,26 @@
                 <p>
                     <a href="/pride">PRIDE</a> > <a href="/pride/archive">Archive</a> > Assay > <g:Anchor ui:field="assay"/>
                 </p>
-                <h2>
-                <g:Label ui:field="title"/>
-                </h2>
-            </g:HTMLPanel>
-            <g:HTMLPanel>
-                <p>
-                <g:Label ui:field="description"/>
-                </p>
-                <p>
+                <div id="left">
+                    <h2>
+                    <g:Label ui:field="title" addStyleNames="protein-title"/>
+                    </h2>
+                </div>
+                <div id="right">
                     <g:Label ui:field="disclaimer" addStyleNames="disclaimer"/>
+                </div>
+            </g:HTMLPanel>
+            <g:HTMLPanel>
+                <p>
+                <g:Label ui:field="description" addStyleNames="protein-desc"/>
+                </p>
+                <p>
+                    <!--<g:Label ui:field="disclaimer" addStyleNames="disclaimer"/>-->
                 </p>
             </g:HTMLPanel>
             <g:HTMLPanel>
                 <p>
-                <g:FlowPanel ui:field="attributes"/>
+                <g:FlowPanel ui:field="attributes" />
                 </p>
             </g:HTMLPanel>
         </g:VerticalPanel>

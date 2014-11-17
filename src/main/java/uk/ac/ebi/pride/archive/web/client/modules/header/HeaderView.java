@@ -21,6 +21,9 @@ public class HeaderView implements HeaderPresenter.ThisView {
     interface HeaderUiBinder extends UiBinder<HTMLPanel, HeaderView> {
     }
 
+    private static final String disclaimerLabel = "Inferred Sequence";
+    private static final String disclaimerTooltip = "This protein sequence was not provided with the dataset, it has been inferred from the submitted protein accession. A peptide is matched using the reported coordinates, which may not match the peptide's position on the inferred sequence.";
+
     private static HeaderUiBinder ourUiBinder = GWT.create(HeaderUiBinder.class);
 
     @UiField
@@ -64,13 +67,20 @@ public class HeaderView implements HeaderPresenter.ThisView {
     }
 
     @Override
-    public void updateDisclaimer(String disclaimer) {
-        this.disclaimer.setText(disclaimer);
+    public void showSequenceDisclaimer(boolean show) {
+        if (show) {
+            this.disclaimer.setText(disclaimerLabel);
+            this.disclaimer.setTitle(disclaimerTooltip);
+        } else {
+            this.disclaimer.setText("");
+            this.disclaimer.setTitle("");
+        }
     }
 
     @Override
     public void updateDescription(String description) {
         this.description.setText(description);
+        this.description.setTitle("The protein description is compiled by PRIDE based on the provided protein identifier.");
     }
 
     @Override
