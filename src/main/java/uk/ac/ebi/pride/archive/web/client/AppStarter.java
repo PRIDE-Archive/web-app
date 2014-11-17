@@ -82,7 +82,7 @@ class AppStarter implements RunAsyncCallback {
                 ArrayList<>();
 
         // Startup loggers & reporters
-        new Reporter(eventBus);
+//        new Reporter(eventBus);
         new WhistleBlower(eventBus);
 
         // Startup the History and Data Retrieval modules
@@ -125,8 +125,8 @@ class AppStarter implements RunAsyncCallback {
                 varianceView);
 
 
-        View spectrumView = new SpectrumView();
-        Presenter spectrumPresenter = new SpectrumPresenter(eventBus, (SpectrumPresenter.ThisView) spectrumView);
+//        View spectrumView = new SpectrumView();
+//        Presenter spectrumPresenter = new SpectrumPresenter(eventBus, (SpectrumPresenter.ThisView) spectrumView);
 
         // Startup the main presenter, it's used as a container to hold the
         // rest of the widget-showing modules.
@@ -138,7 +138,7 @@ class AppStarter implements RunAsyncCallback {
         presenterList.add(sequencePresenter);
         presenterList.add(peptidePresenter);
         presenterList.add(variancePresenter);
-        presenterList.add(spectrumPresenter);
+//        presenterList.add(spectrumPresenter);
 
         for(Presenter p : presenterList) {
             placeHolderList.add(new SimplePanel());
