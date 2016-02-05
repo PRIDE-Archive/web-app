@@ -9,8 +9,13 @@ import java.util.List;
 public interface Spectrum {
 
     String getId();
+
+    List<SpectrumPeak> getPeaks();
+    double getPrecursorMz();
+    double getPrecursorIntensity();
+    int getPrecursorCharge();
     double getMzStart();
     double getMzStop();
-    List<SpectrumPeak> getPeaks();
+
 
 }

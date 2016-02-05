@@ -1,6 +1,5 @@
 package uk.ac.ebi.pride.archive.web.client.modules.data;
 
-import com.google.common.collect.Multiset;
 import uk.ac.ebi.pride.archive.web.client.datamodel.PeptideWithVariances;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.*;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.GroupRetriever;
@@ -11,7 +10,10 @@ import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.Pair;
 import uk.ac.ebi.pride.archive.web.client.utils.Triplet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is the one responsible of retrieving data using retrievers and
@@ -302,7 +304,6 @@ public class DataProvider implements DataServer, TransactionHandler {
         Map<String, Boolean> request = new HashMap<>();
 
         request.put(varianceId, isSpectrumCached(varianceId));
-        spectrumRequests.add(request);
 
         if(!isSpectrumCached(varianceId)) {
             // no need for explicit taxon annotation
@@ -312,6 +313,9 @@ public class DataProvider implements DataServer, TransactionHandler {
         } else {
             dispatchSpectra();
         }
+
+        spectrumRequests.add(request);
+
     }
 
     @Override

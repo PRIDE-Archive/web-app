@@ -2,14 +2,42 @@
     "globalTemplate": {
         "title": "EMBL-EBI PRIDE Archive",
         "javascriptList": [
+
             {
                 "url": "viewer/viewer.nocache.js"
+            },
+            {
+                "url": "static/js/libs/jquery/jquery.min.js"
+            },
+            {
+                "url": "static/js/libs/jquery/jquery-ui.min.js"
+            },
+            {
+                "url": "static/js/libs/jquery/jquery.flot.js"
+            },
+            {
+                "url": "static/js/libs/jquery/jquery.flot.selection.js"
+            },
+            {
+                "url": "static/js/specview.js"
+            },
+            {
+                "url": "static/js/peptide.js"
+            },
+            {
+                "url": "static/js/aminoacid.js"
+            },
+            {
+                "url": "static/js/ion.js"
             }
         ],
         "lastInBody": true,
         "cssList": [
             {
                 "url": "static/css/webapp.css"
+            },
+            {
+                "url": "static/css/lorikeet.css"
             }
         ],
         "placeHolder": "webapp",

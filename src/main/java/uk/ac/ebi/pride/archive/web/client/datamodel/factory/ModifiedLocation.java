@@ -8,4 +8,5 @@ package uk.ac.ebi.pride.archive.web.client.datamodel.factory;
 public interface ModifiedLocation {
     public int getPosition();
     public String getModification();
+    public double getMass();
 }

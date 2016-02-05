@@ -3,11 +3,4 @@
 
     <source path="client" />
 
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/st.js"/>-->
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/st.min.js"/>-->
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/libs/d3/d3.js"/>-->
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/libs/d3/d3.min.js"/>-->
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/libs/jquery/jquery.js"/>-->
-    <!--<script src="http://wwwdev.ebi.ac.uk/pride/archive/webapp/static/js/sbeisken-specktackle/libs/jquery/jquery.min.js"/>-->
-
 </module>
