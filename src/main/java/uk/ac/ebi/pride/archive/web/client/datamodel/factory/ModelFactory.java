@@ -5,8 +5,6 @@ import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import uk.ac.ebi.pride.archive.web.client.exceptions.InvalidJSONException;
-import uk.ac.ebi.pride.archive.web.client.modules.coverage.CoverageView;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 
 import java.util.logging.Logger;
 
@@ -26,13 +24,13 @@ public abstract class ModelFactory {
         AutoBean<ModifiedLocation> modifiedLocation();
     }
 
-    Logger logger = Logger.getLogger(CoverageView.class.getName());
+    private static Logger logger = Logger.getLogger(ModelFactory.class.getName());
 
     public static<T> T getModelObject(Class<T> tClass, String json) throws
             InvalidJSONException {
         MyFactory factory = GWT.create(MyFactory.class);
         try {
-            Console.info("JSON: " + json);
+            logger.info("JSON: " + json);
             AutoBean<T> bean = AutoBeanCodex.decode(factory, tClass, json);
             return bean.as();
         }

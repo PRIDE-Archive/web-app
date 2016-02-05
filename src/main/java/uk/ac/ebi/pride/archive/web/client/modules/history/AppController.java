@@ -17,12 +17,12 @@ import uk.ac.ebi.pride.archive.web.client.events.updates.*;
 import uk.ac.ebi.pride.archive.web.client.exceptions.IllegalRegionValueException;
 import uk.ac.ebi.pride.archive.web.client.exceptions.InconsistentStateException;
 import uk.ac.ebi.pride.archive.web.client.modules.data.DataServer;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.PeptideUtils;
 import uk.ac.ebi.pride.archive.web.client.utils.RegionUtils;
 import uk.ac.ebi.pride.archive.web.client.utils.StringUtils;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * @author Pau Ruiz Safont <psafont@ebi.ac.uk>
@@ -33,6 +33,8 @@ import java.util.*;
 public class AppController implements HasHandlers, DataServer.DataClient,
                                       ValueChangeHandler<String>,
                                       StateChangingActionEvent.Handler {
+
+    private static Logger logger = Logger.getLogger(AppController.class.getName());
 
     private static final String defaultPageTitle = "EMBL-EBI PRIDE Archive";
 
@@ -217,7 +219,7 @@ public class AppController implements HasHandlers, DataServer.DataClient,
     }
 
     private void requestData(State state) {
-        Console.info("(AppController): requestData for History Token " + state.getHistoryToken());
+        logger.info("(AppController): requestData for History Token " + state.getHistoryToken());
         // Check what information is already cached or already requested to
         // notify the application that some data may take some time to be
         // retrieved, we don't want the users to think that the web app is
@@ -323,9 +325,9 @@ public class AppController implements HasHandlers, DataServer.DataClient,
 
         if (state.getSelectedVariances()!=null && state.getSelectedVariances().size()>0) { // right now we just show one peak list
             server.requestSpectrum(state.getSelectedVariances().get(0));
-            Console.info("(AppController): requestData - Spectrum requested");
+            logger.info("(AppController): requestData - Spectrum requested");
         } else {
-            Console.info("No variances selected");
+            logger.info("No variances selected");
         }
     }
 

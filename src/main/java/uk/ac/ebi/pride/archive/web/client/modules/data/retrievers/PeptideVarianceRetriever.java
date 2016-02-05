@@ -1,7 +1,8 @@
 package uk.ac.ebi.pride.archive.web.client.modules.data.retrievers;
 
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.PeptideList;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
+
+import java.util.logging.Logger;
 
 /**
  * This class retrieves the variances of a specified peptide sequence
@@ -11,6 +12,9 @@ import uk.ac.ebi.pride.archive.web.client.utils.Console;
  */
 
 public class PeptideVarianceRetriever extends DataRetriever {
+
+    private static Logger logger = Logger.getLogger(PeptideVarianceRetriever.class.getName());
+
     public PeptideVarianceRetriever(String webServiceRoot) {
         super(webServiceRoot);
     }
@@ -21,9 +25,8 @@ public class PeptideVarianceRetriever extends DataRetriever {
         if (taxonId != null) {
             url += "?species=" + taxonId;
         }
-        if (Console.VERBOSE) {
-            Console.info("Retrieving peptides for id: " + id);
-        }
+        logger.info("Retrieving peptides for id: " + id);
+
         new DataRequester(id, url, PeptideList.class, handlers);
     }
 

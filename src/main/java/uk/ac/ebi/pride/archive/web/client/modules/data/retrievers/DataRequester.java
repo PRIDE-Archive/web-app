@@ -4,10 +4,10 @@ import com.google.gwt.http.client.*;
 import uk.ac.ebi.pride.archive.web.client.modules.data.Transaction;
 import uk.ac.ebi.pride.archive.web.client.modules.data.TransactionHandler;
 import uk.ac.ebi.pride.archive.web.client.modules.data.UnacceptableResponse;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * @author Pau Ruiz Safont <psafont@ebi.ac.uk>
@@ -15,6 +15,9 @@ import java.util.Collection;
  *         Time: 16:14
  */
 class DataRequester implements RequestCallback {
+
+    private static Logger logger = Logger.getLogger(DataRequester.class.getName());
+
 
     private final static int UNPROCESSABLE_ENTITY = 422;
     private final String id;
@@ -38,44 +41,34 @@ class DataRequester implements RequestCallback {
 
     @Override
     public void onResponseReceived(Request request, Response response) {
-        Console.info("(DataRequester): onResponseReceived status=" + response.getStatusCode());
-        if(response == null) {
-            if (Console.VERBOSE) {
-                Console.info("Error: server response is null!");
-            }
+        logger.info("(DataRequester): onResponseReceived status=" + response.getStatusCode());
+        if (response == null) {
+            logger.info("Error: server response is null!");
             onInvalidResponse(new UnacceptableResponse(0, "", "No response from the server.", responseType, id));
-        } else if(response.getStatusCode() == Response.SC_OK) {
-            if (Console.VERBOSE) {
-                Console.info("Valid response from server.");
-            }
+        } else if (response.getStatusCode() == Response.SC_OK) {
+            logger.info("Valid response from server.");
             onValidResponse(response);
         } else if (response.getStatusCode() == Response.SC_UNAUTHORIZED || response.getStatusCode() == Response.SC_FORBIDDEN) {
-            if (Console.VERBOSE) {
-                Console.info("ERROR: " + response.getStatusCode() + " Illegal access!");
-            }
+            logger.info("ERROR: " + response.getStatusCode() + " Illegal access!");
             onInvalidResponse(new UnacceptableResponse(response.getStatusCode(),
-                                                       response.getStatusText(),
-                                                       "Illegal access!",
-                                                       responseType,
-                                                       id));
+                    response.getStatusText(),
+                    "Illegal access!",
+                    responseType,
+                    id));
         } else if (response.getStatusCode() == UNPROCESSABLE_ENTITY || response.getStatusCode() == Response.SC_NOT_FOUND) {
-            if (Console.VERBOSE) {
-                Console.info("ERROR: " + response.getStatusCode() + " No valid data found!");
-            }
+            logger.info("ERROR: " + response.getStatusCode() + " No valid data found!");
             onInvalidResponse(new UnacceptableResponse(response.getStatusCode(),
                     response.getStatusText(),
                     "No valid data found!",
                     responseType,
                     id));
         } else {
-            if (Console.VERBOSE) {
-                Console.info("Error: Invalid response from server. status:" + response.getStatusCode() + "/" +response.getStatusText() );
-            }
+            logger.info("Error: Invalid response from server. status:" + response.getStatusCode() + "/" + response.getStatusText());
             onInvalidResponse(new UnacceptableResponse(response.getStatusCode(),
-                                                       response.getStatusText(),
-                                                       "The Server couldn't fulfill the request.",
-                                                       responseType,
-                                                       id));
+                    response.getStatusText(),
+                    "The Server couldn't fulfill the request.",
+                    responseType,
+                    id));
         }
     }
 

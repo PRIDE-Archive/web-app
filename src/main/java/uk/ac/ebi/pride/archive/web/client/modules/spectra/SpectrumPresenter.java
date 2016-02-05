@@ -8,7 +8,8 @@ import uk.ac.ebi.pride.archive.web.client.events.updates.SpectrumUpdateEvent;
 import uk.ac.ebi.pride.archive.web.client.events.updates.VarianceUpdateEvent;
 import uk.ac.ebi.pride.archive.web.client.modules.Presenter;
 import uk.ac.ebi.pride.archive.web.client.modules.View;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
+
+import java.util.logging.Logger;
 
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
@@ -16,6 +17,8 @@ import uk.ac.ebi.pride.archive.web.client.utils.Console;
  */
 public class SpectrumPresenter extends Presenter<SpectrumPresenter.ThisView> implements VarianceUpdateEvent.Handler,
                                                                                         SpectrumUpdateEvent.Handler {
+
+    private static Logger logger = Logger.getLogger(SpectrumPresenter.class.getName());
 
     public interface ThisView extends View {
         void showSpectrum(Spectrum spectrum, Peptide peptide);
@@ -39,7 +42,7 @@ public class SpectrumPresenter extends Presenter<SpectrumPresenter.ThisView> imp
     public void onVarianceUpdateEvent(VarianceUpdateEvent event) {
         if (event.getVariances() != null && event.getVariances().size()>0) {
             peptide = event.getVariances().get(0);
-            Console.info("(SpectrumPresenter): stored variance sequence=" + peptide.getSequence());
+            logger.info("(SpectrumPresenter): stored variance sequence=" + peptide.getSequence());
         }
         else {
             peptide = null;
@@ -51,9 +54,9 @@ public class SpectrumPresenter extends Presenter<SpectrumPresenter.ThisView> imp
     // TODO - if we find a way to inject Specktackle with JSON objects instead of URLs, we can use this event type
     @Override
     public void onSpectrumUpdateEvent(SpectrumUpdateEvent event) {
-        Console.info("(SpectrumPresenter): presenting Spectrum for event type=" + event.getAssociatedType());
+        logger.info("(SpectrumPresenter): presenting Spectrum for event type=" + event.getAssociatedType());
         if (event.getSpectrum() != null) {
-            Console.info("(SpectrumPresenter): presenting Spectrum for spectrum ID=" + event.getSpectrum().getId());
+            logger.info("(SpectrumPresenter): presenting Spectrum for spectrum ID=" + event.getSpectrum().getId());
             this.getView().showSpectrum(event.getSpectrum(), peptide);
 
         }

@@ -6,9 +6,9 @@ import com.google.gwt.core.client.JsArrayNumber;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.ModifiedLocation;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Spectrum;
 import uk.ac.ebi.pride.archive.web.client.datamodel.factory.SpectrumPeak;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
@@ -16,6 +16,9 @@ import java.util.List;
  *     Wrapper to acomodate the Lorikeet jquery plugin to GWT.
  */
 public class LorikeetWrapper extends JavaScriptObject {
+
+    private static Logger logger = Logger.getLogger(LorikeetWrapper.class.getName());
+
 
     protected LorikeetWrapper() {
 
@@ -81,7 +84,7 @@ public class LorikeetWrapper extends JavaScriptObject {
             outer.push(modsWrapper);
         }
 
-        Console.info("Mods:" + outer.toString());
+        logger.info("Mods:" + outer.toString());
 
         return outer;
     }

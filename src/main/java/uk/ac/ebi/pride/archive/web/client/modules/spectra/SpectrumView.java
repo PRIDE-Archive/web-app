@@ -9,18 +9,20 @@ import uk.ac.ebi.pride.archive.web.client.datamodel.factory.Spectrum;
 import uk.ac.ebi.pride.archive.web.client.modules.ViewWithUiHandlers;
 import uk.ac.ebi.pride.archive.web.client.modules.sequence.SequenceUiHandler;
 import uk.ac.ebi.pride.archive.web.client.modules.variances.VariancesPresenter;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.factories.ModuleContainerFactory;
 import uk.ac.ebi.pride.widgets.client.disclosure.client.ModuleContainer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @author Jose A. Dianes <jdianes@ebi.ac.uk>
  * @author Noemi del Toro <ntoro@ebi.ac.uk>
  */
 public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implements SpectrumPresenter.ThisView {
+
+    private static Logger logger = Logger.getLogger(SpectrumView.class.getName());
 
     private ModuleContainer outerBox;
     private Map<VariancesPresenter, LorikeetWrapper> viewersCache; // TODO
@@ -38,7 +40,7 @@ public class SpectrumView extends ViewWithUiHandlers<SequenceUiHandler> implemen
         SimplePanel simplePanel = new SimplePanel();
         simplePanel.getElement().setId(HTMLPanel.createUniqueId());
         outerBox.setContent(simplePanel);
-        Console.info("Spectrum: " + spectrum.getId());
+        logger.info("Spectrum: " + spectrum.getId());
         LorikeetWrapper.showSpectra(spectrum, peptide.getSequence(), peptide.getModifiedLocations(), simplePanel.getElement().getId());
     }
 

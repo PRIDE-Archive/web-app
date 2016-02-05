@@ -6,7 +6,6 @@ import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.GroupRetriever
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.PeptideVarianceRetriever;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.ProteinRetriever;
 import uk.ac.ebi.pride.archive.web.client.modules.data.retrievers.SpectrumRetriever;
-import uk.ac.ebi.pride.archive.web.client.utils.Console;
 import uk.ac.ebi.pride.archive.web.client.utils.Pair;
 import uk.ac.ebi.pride.archive.web.client.utils.Triplet;
 
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * This class is the one responsible of retrieving data using retrievers and
@@ -29,6 +29,9 @@ import java.util.Map;
  *
  */
 public class DataProvider implements DataServer, TransactionHandler {
+
+    private static Logger logger = Logger.getLogger(DataProvider.class.getName());
+
     private DataServer.DataClient client = null;
 
     private Map<String, Integer> speciesCache = new HashMap<>();
@@ -74,9 +77,8 @@ public class DataProvider implements DataServer, TransactionHandler {
     public void onTransactionFinished(Transaction transaction) {
         if(transaction.getResponse() instanceof Group) {
             Group group = (Group) transaction.getResponse();
-            if (Console.VERBOSE) {
-                Console.info("Received group with id: " + group.getId());
-            }
+            logger.info("Received group with id: " + group.getId());
+
             groupCache.put(group.getId(), group);
 
             for(Map<String, Boolean> batchRequest : groupRequests) {
@@ -91,9 +93,8 @@ public class DataProvider implements DataServer, TransactionHandler {
         }
         else if(transaction.getResponse() instanceof Protein) {
             Protein protein = (Protein) transaction.getResponse();
-            if (Console.VERBOSE) {
-                Console.info("Received protein with id: " + protein.getId());
-            }
+            logger.info("Received protein with id: " + protein.getId());
+
 //            String proteinID = protein.getAccession();        // ARCHIVE CHANGE
             String proteinID = protein.getId();   // ARCHIVE CHANGE
             proteinCache.put(proteinID, protein);
@@ -122,9 +123,8 @@ public class DataProvider implements DataServer, TransactionHandler {
         }
         else if(transaction.getResponse() instanceof PeptideList) {
             PeptideList pepListReceived = (PeptideList) transaction.getResponse();
-            if (Console.VERBOSE) {
-                Console.info("Received " + pepListReceived.getPeptideList().size() + " peptides.");
-            }
+            logger.info("Received " + pepListReceived.getPeptideList().size() + " peptides.");
+
             if(pepListReceived.getPeptideList() == null) {
                 onErroneousResult(new GenericErroneousResult(transaction.getResponse(),
                         transaction.getRequestedName()));
@@ -157,14 +157,13 @@ public class DataProvider implements DataServer, TransactionHandler {
         }
         else if(transaction.getResponse() instanceof Spectrum) {
             Spectrum spectrumReceived = (Spectrum) transaction.getResponse();
-            if (Console.VERBOSE) {
-                if (spectrumReceived.getPeaks()!= null) {
-                    Console.info("Received spectrum for variance with ID " + spectrumReceived.getId() + " and " +
-                            spectrumReceived.getPeaks().size() + " peaks");
-                } else {
-                    Console.info("Received spectrum for variance with ID " + spectrumReceived.getId());
-                }
+            if (spectrumReceived.getPeaks()!= null) {
+                logger.info("Received spectrum for variance with ID " + spectrumReceived.getId() + " and " +
+                        spectrumReceived.getPeaks().size() + " peaks");
+            } else {
+                logger.info("Received spectrum for variance with ID " + spectrumReceived.getId());
             }
+
             if(spectrumReceived.getPeaks() == null) {
                 onErroneousResult(new GenericErroneousResult(transaction.getResponse(),
                         transaction.getRequestedName()));
@@ -184,15 +183,11 @@ public class DataProvider implements DataServer, TransactionHandler {
 
         }
         else if(transaction.getResponse() instanceof ErroneousResult) {
-            if (Console.VERBOSE) {
-                Console.info("Received erroneous result.");
-            }
+            logger.info("Received erroneous result.");
             onErroneousResult(((ErroneousResult) transaction.getResponse()));
         }
         else {
-            if (Console.VERBOSE) {
-                Console.info("Received generic error result.");
-            }
+            logger.info("Received generic error result.");
             onErroneousResult(new GenericErroneousResult(transaction.getResponse(),
                                                          transaction.getRequestedName()));
         }
